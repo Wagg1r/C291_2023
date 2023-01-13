@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 int main(void) {
-	printf("Hello world.\n");
+	printf("Waggoner, Thomas 0021.\n");
 	return 0;
 }
 
