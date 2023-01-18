@@ -1,0 +1,24 @@
+/* 
+ * Basic C program to print out hello world! 
+ * Author: Kurt Seiffert
+*/
+
+#include <stdio.h>
+
+int main(void) {
+  int myNumber =0010;
+  int counter=5;
+  printf("Hello: Welcome to C291! @ IU *****{Welcome to C291 Fall 2021 @ IU}, %%% Golden Rule: Start working on everything as early as possible %%% Thanks ***** \n");
+  while (myNumber >= 0){  
+  print(myNumber);
+   if(counter >= 0) {
+	printf(".");
+	sleep(1);
+	} //ends counter while loop
+   }else {
+	print("\n");
+        counter=5;
+    }// ends if loop
+  }//ends whilee loop
+  return(0); 
+} // ends main
