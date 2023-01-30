@@ -1,0 +1,60 @@
+scanf( take a letter)
+scanf( take one or two numbers depending on if there is overtime for that employee)
+
+case ?{
+display instructions
+}
+
+case A{
+admins don't have overtime they are salary
+take salary and divide by 12 to get monthly salary
+add the monthly salary to a average monthly admin salary variable, also increment a
+counter by one to keep track of # of admins
+}
+
+case S{
+Staff do have overtime so take two numbers
+take salary and divide by 12 for each month
+add monthly salary to average and increment counter by one
+take the individual monthly and divide by 4 for weekly salary
+take weekly salary and divide by 40 hours for the work week
+take overtime hours between 0-10
+multiply hourly pay multiply by 150% to get overtime pay
+multiply overtime pay times overtime hours
+}
+
+case R{
+regular facultly have overload classes so take two numbers
+take salary and divide by 10 months
+add monthly to average increment counter by 1
+divide that number by 4 weeks
+add weekly pay to average
+take overload classes hours and multiply by 2,833.333 then round up
+add pay and salary
+}
+
+Case J{
+tkae how many credit hours they are teaching max 9 and multiply by 2,833.333 then round up
+take that and divide by 5 months and add to average and increment counter by 1
+take monthly and divide by 4 weeks and add to week average
+
+}
+
+case T{
+take number of courses they are teaching and multiply by $2500
+take number of courses multiply 10 for weekly hours add to average increment by 1
+take weekly hours multiply by 4 to get monthly salary
+subtract total hours worked by monthly to find overtime pay (same as regular pay)
+take overtime pay and multiply by $250 to find overtime for the month
+take that number and divide by 4 to get overtime weekly pay
+}
+
+case H{
+take in the hourly pay and hours worked
+divide hours worked by 4 weeks to get weekly hours
+if it is over 20 hours
+	(take 20 multiply hourly pay)
+	((total week hours - 20)x (hourly pay x 125%))
+take monthly and weekly average and add to average increment counter by one
+
+}
