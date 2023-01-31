@@ -1,8 +1,7 @@
 #include <stdio.h>
 
 int main(void){
-	char emp;
-	
+	char emp;	
 	float inputnum;
 	float GS_total_salary = 0;
 	float F_overload= 0;
@@ -15,6 +14,8 @@ int main(void){
 	int Staff_counter = 0;
 	int GS_overtime = 0;
 	int F_counter = 0;
+	char OTresponse;
+	float H_hours_total= 0;
 	float overload_total = 0;
 	float M_Faculty_overtime = 0;
 	float W_Faculty_overtime= 0;
@@ -22,6 +23,8 @@ int main(void){
 	float W_Faculty_Avg = 0;
 	float M_Staff_Avg = 0;
 	float W_Staff_Avg = 0;
+	float M_Hourly_Salary = 0;
+	float M_Hourly_Pay = 0;
 //handle overtime however I want since he did not specify how to do that.
 //salary is what youre supposed to get
 //pay is salary + overtime
@@ -42,77 +45,81 @@ int main(void){
 		Staff_counter += 1; // counts the number of employees in this category
 		M_Staff_Avg = (GS_total_salary/Staff_counter)/12; // takes the total salary for all employees and averages with number of employees divided by the number of months 12
 		W_Staff_Avg = (M_Staff_Avg/4);// take the month average and get that in weeks
+		GS_overtime += M_Staff_Avg;
 		printf("Average Monthly for staff: %f \n", M_Staff_Avg);
 		printf("Average Weekly for Staff: %f  \n", W_Staff_Avg);
+		printf("Average overtime: %f  \n", GS_overtime+M_Staff_Avg);
 		break;
 	case 'S':
                 printf("\n You entered %c, which is Staff \nWhat is the staff's salary and then number of overtime hours per month?: ", emp);
 		scanf("%f %d", &inputnum,&GS_overtime); // ask user for staff input
 		if (GS_overtime > 10){ // make sure its under allowed terms if not ask again.
 			printf("Staff should be limited to 10 hours are you sure this is right? (Y/N)");
-			char OTresponse;
-			scanf("%c", &OTresponse);
-			//printf("wait");
-			if (OTresponse = 'Y'){
+			scanf(" %c", &OTresponse);
+			printf("%d", OTresponse);
+			if (OTresponse = 'Y'){ //this was my interpretation of the bonus Seiffert told me this was incorrect but can work for extra credit
 				printf("thank you please continue \n");
 				} //if the person respondes yes nothing happens
 			else if(OTresponse = 'N') {
 				printf("enter correct amount of time: ");
-				scanf("%d", &GS_overtime);
+				scanf(" %d", &GS_overtime);
 				}//ends else if / take in the correct amount of time.
 			else{ 
 				printf("incorrect input try again");
 				}//ends else catch all other inputs
 		}//end if
 		//printf("overtime: %d  \n", GS_overtime);
-		GS_overtime = (inputnum/1920)*GS_overtime*1.5;// overtime is %150 of salary so find out how their pay is
+				// GS_overtime = (inputnum/1920)*GS_overtime*1.5);// overtime is %150 of salary so find out how their pay is
 		//printf("overtime: %d  \n", GS_overtime);
 		GS_total_salary += inputnum; //take all salaries and group them together
                 Staff_counter += 1; //count the number of employees
                 M_Staff_Avg = (GS_total_salary/Staff_counter)/12; //
                 W_Staff_Avg = (M_Staff_Avg/4);
-                printf("Average Monthly for staff: %f \n", M_Staff_Avg);
+		GS_overtime = (((inputnum/1920)*GS_overtime*1.5)+M_Staff_Avg)/Staff_counter;// overtime is %150 of salary so find out how their pay is
+
+		printf("Average Monthly for staff: %f \n", M_Staff_Avg);
                 printf("Average Weekly for Staff: %f  \n", W_Staff_Avg);
-		printf("Average overtime: %d  \n", GS_overtime);
+		printf("Average overtime: %f  \n", GS_overtime+M_Staff_Avg);
 		break;
 	case 'R':
 		printf("\n You entered %c, which is Regular Faculty \n What is the Regular Faculaty's salary and overload credit hours?: ", emp);
                 scanf("%f %f", &inputnum,&F_overload); // ask user for staff input
-printf("input number: %f \n", inputnum);
+			//printf("input number: %f \n", inputnum);
 		F_total_salary += inputnum; // takes all sallaries and adds them together.
-printf("total salary: %f \n", F_total_salary);
+			//printf("total salary: %f \n", F_total_salary);
 		Faculty_counter += 1; // counts the number of Faculty
-printf("faculty counter: %d \n", Faculty_counter);
+			//printf("faculty counter: %d \n", Faculty_counter);
 		M_Faculty_Avg = (F_total_salary/Faculty_counter)/10; // this takes the total salary divides it by the number of people and then divides by 12 months for monthly pay
 		W_Faculty_Avg = M_Faculty_Avg/4; //this calulates what the  weekly average pay is based on the Monthly pay
 
 		overload_total += (F_overload*(8500/3)); // take the overload hours and multiply them by how much $ for each credit hour 8500/3 and divide by 5 for each month in the semester
-printf("overload: %f overload_total: %f\n",F_overload, overload_total);
-		M_Faculty_overtime = overload_total/5; //take the total overload and divide it by 5 (5 months for each semester) to get how much they are being paid monthly for overload
-		W_Faculty_overtime = M_Faculty_overtime/4; //divide the monthly into 4 weeks
-
+			//printf("overload: %f overload_total: %f\n",F_overload, overload_total);
+		M_Faculty_overtime += overload_total/5; //take the total overload and divide it by 5 (5 months for each semester) to get how much they are being paid monthly for overload
+	
+		M_Faculty_overtime += M_Faculty_Avg;
 		printf("Average Monthly for Faculty: $%f \n", M_Faculty_Avg);
                 printf("Average Weekly for Staff: $%f  \n", W_Faculty_Avg);
-                printf("Average overload pay :$%f  \n", M_Faculty_overtime);
+                printf("Average  pay :$%f  \n", M_Faculty_overtime);
 
 		break;
 	case 'J':
                 printf("\n You entered %c, which is Adjunct \nHow many credit hours do they teach?\n ", emp);
 		scanf("%f", &inputnum);
+
 		inputnum = inputnum*566.6666666;// take how many hours they worked and convert it to total money earned per semester
 		F_total_salary += inputnum; //add the money earned for the whole semester for all faculty
-
+		M_Faculty_overtime += F_total_salary
 		Faculty_counter += 1; //count the number of faculty
 		M_Faculty_Avg = ((F_total_salary/Faculty_counter)/5);//take the total salary and divide it by 5 months
 		W_Faculty_Avg = M_Faculty_Avg/4;
- 		printf("Average Monthly for Faculty: $%f \n", M_Faculty_Avg);
-                printf("Average Weekly for Staff: $%f  \n", W_Faculty_Avg);
-                printf("Average overload pay :$%f  \n", M_Faculty_overtime);
+ 		printf("Average Faculty Monthly for Faculty: $%f \n", M_Faculty_Avg);
+                printf("Average Faculty Weekly for Staff: $%f  \n", W_Faculty_Avg);
+                printf("Average Faculty pay :$%f  \n", M_Faculty_overtime);
                 break;
 	case 'T':
  	      	printf("\n You entered %c, which is TA \nHow many courses and hours have they worked?", emp);
                 scanf("%f %d", &inputnum, &TA_hours);
-		inputnum = inputnum * 2500;// number of courses times the pay per course
+			inputnum = inputnum * 2500;// number of courses times the pay per course
 		Faculty_counter += 1; //count the number of faculty
 		F_total_salary += inputnum; //add the money earned for the whole semester fo>
 		M_Faculty_Avg = ((F_total_salary/Faculty_counter)/5);//take the total salary>
@@ -123,13 +130,34 @@ printf("overload: %f overload_total: %f\n",F_overload, overload_total);
 //condider overtime!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  		break;
 	case 'H':
-               	printf("\n You entered %c, which is Hourly \nEnter their hourly wage and hours worked this month", emp);
-		scanf("%f %d", &inputnum, &H_hours);
+               	printf("\n You entered %c, which is Hourly \nEnter their hourly wage and hours worked this month: ", emp);
+		scanf(" %f %d", &inputnum, &H_hours);
+		H_hours_total += H_hours*H_hours*1.25;//total pay
+		if(H_hours/4>20){
+		M_Hourly_Salary = 20*inputnum;
+		M_Hourly_Pay = (H_hours/4)*inputnum;
+		}//ends if
+		else{
+		M_Hourly_Salary = (H_hours/4)*inputnum;
+                M_Hourly_Pay = (H_hours/4)*inputnum;
+		}//ends else
+		printf("monthly pay is %f \n",M_Hourly_Pay);
+		printf("monthly salary is %f \n",M_Hourly_Salary);
+		printf("Weekly salary is %f \n", M_Hourly_Salary/4);
+
+
 		break;
 	case 'Q':
 		printf("thank you ending now \n");
-		printf("Average Monthly for staff: %f \n", M_Staff_Avg);
-                printf("Average Weekly for Staff: %f  \n", W_Staff_Avg);
+		printf("Average Staff Monthly for staff: %f \n", M_Staff_Avg);
+                printf("Average Staff Weekly for Staff: %f  \n\n", W_Staff_Avg);
+
+		printf("monthly Hourly pay is %f \n",M_Hourly_Pay);
+                printf("monthly Hourly salary is %f \n",M_Hourly_Salary);
+                printf("Weekly Hourly salary is %f \n\n", M_Hourly_Salary/4);
+
+		
+
 		break;
 	case '?':
 		printf("use A S R J T or H \n");
