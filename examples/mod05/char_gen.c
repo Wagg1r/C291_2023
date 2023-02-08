@@ -55,7 +55,7 @@ int chLead[CREW_SIZE] = {0};
 Psuedocode for Character Gen program
 
 prompt user for test run
-if test_run == 0:
+if test_run != 0:
     generate_crew()
     for up to three times
         print_crew_report()
@@ -67,13 +67,13 @@ if test_run == 0:
         else:
             Quit program
 else:
-    //do test run indicated by user
+    
 
 func generate_crew()
     for each crew position
         generate_char()
 
-func generate_char()
+func generate_char(crew_id)
     generate_char_attributes()
     generate_char_race()
     generate_char_skills()
@@ -85,6 +85,9 @@ func encode_char_skill()
 int func decode_char_skill()
 
 func print_crew_report()
+    print report header
+    for each crew member
+        print crew abilities and skills and race
 */
 int main(void) {
     // initialize services
@@ -163,7 +166,7 @@ void print_crew_report(void) {
     for (int id = 0; id < CREW_SIZE; ++id) {
         switch (id) {
             case 0:
-                printf("Cap    ");
+                printf("CaP    ");
                 break;
             case 1:
                 printf("Com    ");
