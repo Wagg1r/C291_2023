@@ -22,7 +22,7 @@
 #define SIX_SIDED 6
 #define TEN_SIDED 10
 
-// Prototypes
+// Function Prototypes
 void generate_crew(void);
 void generate_crew_member(int crew_id);
 void generate_race(int crew_id, int testing);
@@ -41,7 +41,6 @@ char chCrewPos[CREW_SIZE] = {'Z'};
 int chCharisma[CREW_SIZE] = {0};
 int chIntel[CREW_SIZE] = {0};
 int chPsi[CREW_SIZE] = {0};
-
 // the rest of attributes represented in the same way
 
 char chRace[CREW_SIZE] = {'Z'};
@@ -55,7 +54,7 @@ int chLead[CREW_SIZE] = {0};
 Psuedocode for Character Gen program
 
 prompt user for test run
-if test_run != 0:
+if test_run == 0:
     generate_crew()
     for up to three times
         print_crew_report()
@@ -67,7 +66,7 @@ if test_run != 0:
         else:
             Quit program
 else:
-    
+    // test run conditions
 
 func generate_crew()
     for each crew position
@@ -79,6 +78,8 @@ func generate_char(crew_id)
     generate_char_skills()
 
 func generate_random(max_value);
+
+func roll_dice(number of dice, number of die sides)
 
 func encode_char_skill()
 
@@ -101,6 +102,24 @@ int main(void) {
     switch (t_response) {
         
         case '1': 
+            // sets crew member attributes to ensure all skill values are tested. Includes
+            // racial modifiers to abilities by testing all races as well.
+            /* input:
+                1
+                Q
+            
+               output:
+                Enter test case number 0-9 (0 or newline means normal run):
+                       Race   Attributes         Skills
+                Crew          C  I  S  P  A      N    E   L    T    D
+                Cap    T      3  3  3  3  3    +-4  +-4 +-4  +-4  +-4
+                Com    M      6  6  4  8  6    *-1  *-2 *-2  *-3  *-2
+                Eng    V     13 11 13 13 11      0    0   0    0    0
+                Nav    S     15 18 15 17 16     *2   *2  *2   *2   *2
+                Sec    T     18 18 18 18 18     +4   +4  +4   +4   +4
+                Enter C to reroll the crew or a crew number [0-4] to reroll reroll a crew member. You have 3 of 3 rerolls left:
+                Enjoy the game!
+           */
             {
                 int attr_val;
                 int test_bonuses[CREW_SIZE] = {1, 2, 20, 80, 99};
@@ -117,6 +136,15 @@ int main(void) {
                 }
             }
             break;
+        case '2':
+            // write test setup to test changing a single character consistently 
+            // you can modify functions but minimize code only evaluated during a test.
+            // provide the required input and expected output
+        
+        case '3':
+            // write test setup to test changing entire crew consistently
+            // you can modify functions but minimize code only evaluated during a test.
+            // provide the required input and expected output
 
         case '\n':
         case '0':
@@ -128,6 +156,7 @@ int main(void) {
     
     print_crew_report();
 
+    // start prompting user for changes to rolled crew
     for (int i = REROLLS_ALLOWED; i > 0; i--) {
         char rr;
         int flag = 1;
@@ -160,13 +189,21 @@ int main(void) {
 
 } // end main
 
+/*
+    print_crew_report:
+
+    TODO: Implement displaying unimplmented attributes and skills.
+
+    Prints table displaying crew position, race, attribute values, and skill values.
+    Skill values denote if the crew member is a natural or extra-natural skill.
+*/
 void print_crew_report(void) {
     puts("       Race   Attributes         Skills");
     puts("Crew          C  I  S  P  A      N    E   L    T    D");
     for (int id = 0; id < CREW_SIZE; ++id) {
         switch (id) {
             case 0:
-                printf("CaP    ");
+                printf("CAP    ");
                 break;
             case 1:
                 printf("Com    ");
@@ -194,6 +231,12 @@ void print_crew_report(void) {
 
 }
 
+/*
+    print_skill:
+
+    Helper function that prints the skill value correctly by decoding the skill code
+    and flaging the natural roll with a * or +. 
+*/
 char print_skill(int skill_cd) {
     int bonus = skill_bonus_lvl(skill_cd);
     int skill_val = decode_skill_value(skill_cd);
@@ -366,6 +409,18 @@ int gen_enc_skill(int attr1, int attr2, int bonus_roll) {
     decode_skill_value:
 
     decodes the skill and returns the skill value.
+
+    ability_based skill_cd = encoded_skill_cd % 10
+    nat_roll_skill_cd = encoded_skill_cd / 10
+
+    ability cd table (nat_roll_skill_cd's are the same except x10)
+    ability_skill_cd    Value
+    ----------------    -----
+    0                   0
+    1                   -2
+    2                   -1
+    3                   1
+    4                   2
 */
 int decode_skill_value(int encoded_skill) {
     int skill_value = 0;
