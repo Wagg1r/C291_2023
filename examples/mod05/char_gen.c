@@ -28,23 +28,38 @@ void generate_crew_member(int crew_id);
 void generate_race(int crew_id, int testing);
 void generate_skills(int crew_id);
 void print_crew_report(void);
-char print_skill(int lvl);
+void print_skill(int lvl);
 int roll_dice(int rolls, int dice_sides);
 int gen_enc_skill(int attr1, int attr2,int bonus_roll);
 int decode_skill_value(int skill_cd);
 int skill_bonus_lvl(int skill_cd);
 
-
-char chCrewPos[CREW_SIZE] = {'Z'};
-// C = Captain; E = Engineering, N = Navigation, R = Communication, ..
-
+/*
+    List of character attributes:
+        Charisma
+        Intelligence
+        Psionics
+        Strength
+        Agility
+*/
 int chCharisma[CREW_SIZE] = {0};
 int chIntel[CREW_SIZE] = {0};
 int chPsi[CREW_SIZE] = {0};
 // the rest of attributes represented in the same way
 
-char chRace[CREW_SIZE] = {'Z'};
+char chRace[CREW_SIZE] = {'Z','Z','Z','Z','Z'};
 
+/*
+    List of character skills
+        SKILL       DEPENDS ON
+        -----       ----------
+        Nav         Inteligence, Psionics
+        Eng         Intelligence, Agility
+        Tac         Strength, Agility
+        Lead        Charisma, Intelligence
+        Dip         Charisma, Psionics
+
+*/
 int chNav[CREW_SIZE] = {0};
 int chLead[CREW_SIZE] = {0};
 // the rest of the skills done in in similar arrays, but encode natural
@@ -100,7 +115,11 @@ int main(void) {
     char t_response;
     scanf(" %c", &t_response);
     switch (t_response) {
-        
+        case '\n':
+        case '0':
+            // normal run
+            generate_crew();
+            break;
         case '1': 
             // sets crew member attributes to ensure all skill values are tested. Includes
             // racial modifiers to abilities by testing all races as well.
@@ -108,15 +127,15 @@ int main(void) {
                 1
                 Q
             
-               output:
+               output (no leading spaces in actual output):
                 Enter test case number 0-9 (0 or newline means normal run):
                        Race   Attributes         Skills
-                Crew          C  I  S  P  A      N    E   L    T    D
-                Cap    T      3  3  3  3  3    +-4  +-4 +-4  +-4  +-4
-                Com    M      6  6  4  8  6    *-1  *-2 *-2  *-3  *-2
-                Eng    V     13 11 13 13 11      0    0   0    0    0
-                Nav    S     15 18 15 17 16     *2   *2  *2   *2   *2
-                Sec    T     18 18 18 18 18     +4   +4  +4   +4   +4
+                Crew          C  I  S  P  A      N    E    L    T    D
+                Cap    T      3  3  3  3  3     -4+  -4+  -4+  -4+  -4+
+                Com    M      6  6  4  8  6     -1*  -2*  -2*  -2*  -1*
+                Eng    V     13 11 13 13 11      0    0    0    0    0
+                Nav    S     15 18 15 17 16      2*   2*   2*   2*   2*
+                Sec    T     18 18 18 18 18      4+   4+   4+   4+   4+
                 Enter C to reroll the crew or a crew number [0-4] to reroll reroll a crew member. You have 3 of 3 rerolls left:
                 Enjoy the game!
            */
@@ -137,20 +156,21 @@ int main(void) {
             }
             break;
         case '2':
+            // TODO: Implement your Test Case 2 here
+            //
             // write test setup to test changing a single character consistently 
             // you can modify functions but minimize code only evaluated during a test.
             // provide the required input and expected output
         
         case '3':
+            // TODO: Implement your Test Case 3 here
+            //
             // write test setup to test changing entire crew consistently
             // you can modify functions but minimize code only evaluated during a test.
             // provide the required input and expected output
 
-        case '\n':
-        case '0':
+
         default:
-            // normal run
-            generate_crew();
             break;
     }
     
@@ -199,11 +219,11 @@ int main(void) {
 */
 void print_crew_report(void) {
     puts("       Race   Attributes         Skills");
-    puts("Crew          C  I  S  P  A      N    E   L    T    D");
+    puts("Crew          C  I  S  P  A      N    E    L    T    D");
     for (int id = 0; id < CREW_SIZE; ++id) {
         switch (id) {
             case 0:
-                printf("CAP    ");
+                printf("Cap    ");
                 break;
             case 1:
                 printf("Com    ");
@@ -224,7 +244,7 @@ void print_crew_report(void) {
         printf("%2d ", chIntel[id]);
         printf(" 0 %2d  0    ", chPsi[id]);
         print_skill(chNav[id]);
-        printf("   0 ");
+        printf("   0  ");
         print_skill(chLead[id]);
         printf("   0    0\n");
     }
@@ -237,17 +257,18 @@ void print_crew_report(void) {
     Helper function that prints the skill value correctly by decoding the skill code
     and flaging the natural roll with a * or +. 
 */
-char print_skill(int skill_cd) {
+void print_skill(int skill_cd) {
     int bonus = skill_bonus_lvl(skill_cd);
     int skill_val = decode_skill_value(skill_cd);
-    
+
+    printf(" ");  // print padding to the left
     if (bonus) {
         char bonus_char = bonus == 1 ? '*' : '+';
         if (skill_val > 0)
             printf(" ");
-        printf("%c%d ", bonus_char, skill_val);
+        printf("%d%c", skill_val, bonus_char);
     } else 
-        printf("  %d ", skill_val );
+        printf(" %d ", skill_val );
 }
 
 
@@ -319,11 +340,11 @@ void generate_race(int crew_id, int testing) {
             break;
         case VENUSIAN:
             chRace[crew_id] = 'V';
-
+            // implement racial bonues
             break;
         case SATURIAN:
             chRace[crew_id] = 'S';
-
+            // implement racial bonues
             break;
         default:
             puts("Something went terribly wrong to wind up here.");
@@ -342,9 +363,10 @@ void generate_race(int crew_id, int testing) {
     natural bonus, we store the natural bonus in the skill array. 
     
 */
+#define ROLL_NEW -1
 void generate_skills(int crew_id) {
-    chLead[crew_id] = gen_enc_skill(chCharisma[crew_id], chIntel[crew_id], -1);
-    chNav[crew_id] = gen_enc_skill(chIntel[crew_id], chPsi[crew_id], -1);
+    chLead[crew_id] = gen_enc_skill(chCharisma[crew_id], chIntel[crew_id], ROLL_NEW);
+    chNav[crew_id] = gen_enc_skill(chIntel[crew_id], chPsi[crew_id], ROLL_NEW);
     // remaining skills needed
 
 }
