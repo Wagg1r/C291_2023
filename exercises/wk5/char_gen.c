@@ -132,7 +132,7 @@ int main(void) {
                        Race   Attributes         Skills
                 Crew          C  I  S  P  A      N    E    L    T    D
                 Cap    T      3  3  3  3  3     -4+  -4+  -4+  -4+  -4+
-                Com    M      6  6  4  8  6     -1*  -2*  -2*  -2*  -1*
+                Com    M      6  6  4  8  7     -1*  -2*  -2*  -2*  -1*
                 Eng    V     13 11 13 13 11      0    0    0    0    0
                 Nav    S     15 18 15 17 16      2*   2*   2*   2*   2*
                 Sec    T     18 18 18 18 18      4+   4+   4+   4+   4+
