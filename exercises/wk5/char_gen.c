@@ -1,6 +1,5 @@
-
 // generate characters for a starship RPG
-// Author: Kurt Seiffert
+// Author: Thomas Waggoner
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -45,6 +44,8 @@ int skill_bonus_lvl(int skill_cd);
 int chCharisma[CREW_SIZE] = {0};
 int chIntel[CREW_SIZE] = {0};
 int chPsi[CREW_SIZE] = {0};
+int chStr[CREW_SIZE] = {0};
+int chAgl[CREW_SIZE] = {0};
 // the rest of attributes represented in the same way
 
 char chRace[CREW_SIZE] = {'Z','Z','Z','Z','Z'};
@@ -61,7 +62,10 @@ char chRace[CREW_SIZE] = {'Z','Z','Z','Z','Z'};
 
 */
 int chNav[CREW_SIZE] = {0};
+int chEng[CREW_SIZE] = {0};
+int chTac[CREW_SIZE] = {0};
 int chLead[CREW_SIZE] = {0};
+int chDip[CREW_SIZE] = {0};
 // the rest of the skills done in in similar arrays, but encode natural
 // rolls into the skill value; decode when needing to display or use
 
