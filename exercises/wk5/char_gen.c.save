@@ -66,8 +66,24 @@ int chEng[CREW_SIZE] = {0};
 int chTac[CREW_SIZE] = {0};
 int chLead[CREW_SIZE] = {0};
 int chDip[CREW_SIZE] = {0};
+
 // the rest of the skills done in in similar arrays, but encode natural
 // rolls into the skill value; decode when needing to display or use
+//prompt user for test run
+printf("user"):
+if test_run == 0:
+    generate_crew()
+    for up to three times
+        print_crew_report()
+        prompt user - gen new crew, new char, or Quit
+        if new_char_request:
+            generate_char()
+        else if generate_new_crew:
+            generate_crew()
+        else:
+            Quit program
+else:
+    // test run conditions
 
 /* 
 Psuedocode for Character Gen program
@@ -130,7 +146,7 @@ int main(void) {
             /* input:
                 1
                 Q
-            
+
                output (no leading spaces in actual output):
                 Enter test case number 0-9 (0 or newline means normal run):
                        Race   Attributes         Skills
@@ -144,25 +160,19 @@ int main(void) {
                 Enjoy the game!
            */
             {
-               int attr_val; 
+                int attr_val;
                 int test_bonuses[CREW_SIZE] = {1, 2, 20, 80, 99};
                 int test_attrs[CREW_SIZE] = {3, 6, 12, 16, 18};
-                
+ 
                 // generate test values for a crew 
                 for (int i = 0; i < 5; ++i) {
                     chCharisma[i] = test_attrs[i];
                     chIntel[i] = test_attrs[i];
-                    chStr[i] = test_attrs[i];
-		    chPsi[i] = test_attrs[i];
-                    chAgl[i] = test_attrs[i];
-		    generate_race(i, (i % 4) + 1);
+                    chPsi[i] = test_attrs[i];
+                    generate_race(i, (i % 4) + 1);
                     chLead[i] = gen_enc_skill(chCharisma[i], chIntel[i], test_bonuses[i]);
                     chNav[i] = gen_enc_skill(chIntel[i], chPsi[i], test_bonuses[i]);
-	 	    chEng[i] = gen_enc_skill(chIntel[i], chAgl[i], test_bonuses[i]);
-		    chTac[i] = gen_enc_skill(chStr[i], chAgl[i], test_bonuses[i]);
-		    chDip[i] = gen_enc_skill(chCharisma[i], chPsi[i], test_bonuses[i]);             
-
-		}
+                }
             }
             break;
         case '2':
@@ -171,44 +181,22 @@ int main(void) {
             // write test setup to test changing a single character consistently 
             // you can modify functions but minimize code only evaluated during a test.
             // provide the required input and expected output
-	    {
+        {
+                int attr_val;
                 int test_bonuses[CREW_SIZE] = {1, 2, 20, 80, 99};
-                int  test_attrs[CREW_SIZE] = {3, 6, 12, 16, 18};
-		srand(1);
-		int test_rand = (rand(1)%16+3);
-	    	for (int i = 0; i < 5; ++i) {
+                int test_attrs[CREW_SIZE] = {3, 6, 12, 16, 18};
+                
+                // generate test values for a crew 
+                for (int i = 0; i < 5; ++i) {
                     chCharisma[i] = test_attrs[i];
                     chIntel[i] = test_attrs[i];
-                    chStr[i] = test_attrs[i];
                     chPsi[i] = test_attrs[i];
-                    chAgl[i] = test_attrs[i];
                     generate_race(i, (i % 4) + 1);
                     chLead[i] = gen_enc_skill(chCharisma[i], chIntel[i], test_bonuses[i]);
                     chNav[i] = gen_enc_skill(chIntel[i], chPsi[i], test_bonuses[i]);
-                    chEng[i] = gen_enc_skill(chIntel[i], chAgl[i], test_bonuses[i]);
-                    chTac[i] = gen_enc_skill(chStr[i], chAgl[i], test_bonuses[i]);
-                    chDip[i] = gen_enc_skill(chCharisma[i], chPsi[i], test_bonuses[i]);
-		}
-		
-		
-                print_crew_report();
-		
-		int i = 0;
-                    chCharisma[0] = test_rand;
-                    chIntel[0] = test_rand;
-                    chStr[0] = test_rand;
-                    chPsi[0] = test_rand;
-                    chAgl[0] = test_rand;
-                    generate_race(i, (i % 4) + 1);
-                    chLead[0] = gen_enc_skill(chCharisma[i], chIntel[i], test_bonuses[i]);
-                    chNav[0] = gen_enc_skill(chIntel[i], chPsi[i], test_bonuses[i]);
-                    chEng[0] = gen_enc_skill(chIntel[i], chAgl[i], test_bonuses[i]);
-                    chTac[0] = gen_enc_skill(chStr[i], chAgl[i], test_bonuses[i]);
-                    chDip[0] = gen_enc_skill(chCharisma[i], chPsi[i], test_bonuses[i]);
-	    		
-	    }
-    break;
-   
+                }
+            }
+
         case '3':
             // TODO: Implement your Test Case 3 here
             //
@@ -216,51 +204,28 @@ int main(void) {
             // you can modify functions but minimize code only evaluated during a test.
             // provide the required input and expected output
 {
+                int attr_val;
                 int test_bonuses[CREW_SIZE] = {1, 2, 20, 80, 99};
-                int  test_attrs[CREW_SIZE] = {3, 6, 12, 16, 18};
-                int test_rand = (18);
-                //int test_rand = (srand(1)%16+3);
+                int test_attrs[CREW_SIZE] = {3, 6, 12, 16, 18};
+
+                // generate test values for a crew 
                 for (int i = 0; i < 5; ++i) {
                     chCharisma[i] = test_attrs[i];
                     chIntel[i] = test_attrs[i];
-                    chStr[i] = test_attrs[i];
                     chPsi[i] = test_attrs[i];
-                    chAgl[i] = test_attrs[i];
                     generate_race(i, (i % 4) + 1);
                     chLead[i] = gen_enc_skill(chCharisma[i], chIntel[i], test_bonuses[i]);
                     chNav[i] = gen_enc_skill(chIntel[i], chPsi[i], test_bonuses[i]);
-                    chEng[i] = gen_enc_skill(chIntel[i], chAgl[i], test_bonuses[i]);
-                    chTac[i] = gen_enc_skill(chStr[i], chAgl[i], test_bonuses[i]);
-                    chDip[i] = gen_enc_skill(chCharisma[i], chPsi[i], test_bonuses[i]);
                 }
-
-		print_crew_report();
-
-		 for (int i = 0; i < 5; ++i) {
-		    srand(i);
-		    test_attrs[i]= ((rand()%16)+3);
-		    chCharisma[i] = test_attrs[i];
-                    chIntel[i] = test_attrs[i];
-                    chStr[i] = test_attrs[i];
-                    chPsi[i] = test_attrs[i];
-                    chAgl[i] = test_attrs[i];
-                    generate_race(i, (i % 4) + 1);
-                    chLead[i] = gen_enc_skill(chCharisma[i], chIntel[i], test_bonuses[i]);
-                    chNav[i] = gen_enc_skill(chIntel[i], chPsi[i], test_bonuses[i]);
-                    chEng[i] = gen_enc_skill(chIntel[i], chAgl[i], test_bonuses[i]);
-                    chTac[i] = gen_enc_skill(chStr[i], chAgl[i], test_bonuses[i]);
-                    chDip[i] = gen_enc_skill(chCharisma[i], chPsi[i], test_bonuses[i]);
-		}
-	     break;
-	}
-        default:
+            }
             break;
     }
- print_crew_report();
+    
+    print_crew_report();
 
     // start prompting user for changes to rolled crew
     for (int i = REROLLS_ALLOWED; i > 0; i--) {
-char rr;
+        char rr;
         int flag = 1;
         printf("Enter C to reroll the crew or a crew number [0-4] to reroll "
                    "reroll a crew member. You have %d of 3 rerolls left:\n", i);
@@ -280,9 +245,9 @@ char rr;
         else if (rr == 'Q') {
             puts("Enjoy the game!");
             exit(1);
-        } else
+        } else 
             generate_crew_member(rr - '0');
-
+        
         print_crew_report();
     }
 
@@ -310,7 +275,7 @@ void print_crew_report(void) {
             case 1:
                 printf("Com    ");
                 break;
-            case 2:
+            case 2: 
                 printf("Eng    ");
                 break;
             case 3:
@@ -324,17 +289,11 @@ void print_crew_report(void) {
         printf("%c     ", chRace[id]);
         printf("%2d ", chCharisma[id]);
         printf("%2d ", chIntel[id]);
-	printf("%2d ", chStr[id]);
-        printf("%2d ", chPsi[id]);
-	printf("%2d ", chAgl[id]);
-        
-	printf("   ");
-	print_skill(chNav[id]);
-        print_skill(chEng[id]);
-	print_skill(chLead[id]);
-        print_skill(chTac[id]);
-	print_skill(chDip[id]);
-	printf("\n");
+        printf(" 0 %2d  0    ", chPsi[id]);
+        print_skill(chNav[id]);
+        printf("   0  ");
+        print_skill(chLead[id]);
+        printf("   0    0\n");
     }
 
 }
@@ -343,7 +302,7 @@ void print_crew_report(void) {
     print_skill:
 
     Helper function that prints the skill value correctly by decoding the skill code
-    and flaging the natural roll with a * or +.
+    and flaging the natural roll with a * or +. 
 */
 void print_skill(int skill_cd) {
     int bonus = skill_bonus_lvl(skill_cd);
@@ -354,70 +313,68 @@ void print_skill(int skill_cd) {
         char bonus_char = bonus == 1 ? '*' : '+';
         if (skill_val > 0)
             printf(" ");
-        printf("%d%c ", skill_val, bonus_char);
-    } else
-        printf(" %d  ", skill_val );
+        printf("%d%c", skill_val, bonus_char);
+    } else 
+        printf(" %d ", skill_val );
 }
 
 
 void generate_crew(void) {
-    for (int i = 0; i < CREW_SIZE; ++i)
+    for (int i = 0; i < CREW_SIZE; ++i) 
         generate_crew_member(i);
 }
 
 /*
-   generate_crew_member:
+   generate_crew_member: 
 
-   TODO: Finish attribute generation DONE
-
+   TODO: Finish attribute generation
+  
    Uses the crew_id to generate crew member stats. The stats
-   are maintained in global arrays.
+   are maintained in global arrays. 
 */
 void generate_crew_member(int crew_id) {
     // generate basic attributes
     chCharisma[crew_id] = roll_dice(3, SIX_SIDED);
     chIntel[crew_id] = roll_dice(3, SIX_SIDED);
     chPsi[crew_id] = roll_dice(3, SIX_SIDED);
-    chStr[crew_id] = roll_dice(3, SIX_SIDED);
-    chAgl[crew_id] = roll_dice(3, SIX_SIDED);
     // need to finish basic attributes
 
-
+    
     generate_race(crew_id, 0);
 
     generate_skills(crew_id);
-}
+} 
 
 /*
  * roll_dice:
     Takes the number of dice rolls and dice sides.
-
-    Returns the sum of the all the dice rolls.
+    
+    Returns the sum of the all the dice rolls. 
 */
 int roll_dice(int rolls, int dice_sides) {
     int sum = 0;
     for (int i = 0; i < rolls; ++i) {
         sum += (rand() % dice_sides) + 1;
     }
-
+    
     return sum;
 }
 
 /*
     generate_race:
 
-    TODO: Finish implementing racial attribute adjustment DONE
+    TODO: Finish implementing racial attribute adjustment
 
-    Generates a random race and then adjusts attributes accordingly.
+    Generates a random race and then adjusts attributes accordingly. 
     Operates on global arrays.
 */
 void generate_race(int crew_id, int testing) {
     int race;
     if (!testing)
         race = rand() % 4 + 1;
-    else
+    else 
         race = testing;
-
+    
     switch (race) {
         case TERRAN:
             chRace[crew_id] = 'T';
@@ -426,25 +383,14 @@ void generate_race(int crew_id, int testing) {
         case MARTIAN:
             chRace[crew_id] = 'M';
             chPsi[crew_id] += 2;
-            chStr[crew_id] -= 2;
-            chAgl[crew_id] += 1;
             // strength and agility adjustments not implemented
             break;
         case VENUSIAN:
             chRace[crew_id] = 'V';
-            chCharisma[crew_id] += 1;
-            chIntel[crew_id] -= 1;
-            chPsi[crew_id] += 1;
-            chStr[crew_id] += 1;
-            chAgl[crew_id] -= 1;
             // implement racial bonues
             break;
         case SATURIAN:
             chRace[crew_id] = 'S';
-            chCharisma[crew_id] -= 1;
-            chIntel[crew_id] += 2;
-            chPsi[crew_id] += 1;
-            chStr[crew_id] -= 1;
             // implement racial bonues
             break;
         default:
@@ -458,23 +404,16 @@ void generate_race(int crew_id, int testing) {
 /*
     generate_skills:
 
-    TODO: Finish generating all skills DONE
+    TODO: Finish generating all skills
 
     Skills are based on critical attribute values and modified by
-    natural bonus, we store the natural bonus in the skill array.
-
+    natural bonus, we store the natural bonus in the skill array. 
+    
 */
 #define ROLL_NEW -1
 void generate_skills(int crew_id) {
     chLead[crew_id] = gen_enc_skill(chCharisma[crew_id], chIntel[crew_id], ROLL_NEW);
     chNav[crew_id] = gen_enc_skill(chIntel[crew_id], chPsi[crew_id], ROLL_NEW);
-    chEng[crew_id] = gen_enc_skill(chIntel[crew_id], chAgl[crew_id], ROLL_NEW);
-    chTac[crew_id] = gen_enc_skill(chStr[crew_id], chAgl[crew_id], ROLL_NEW);
-    chDip[crew_id] = gen_enc_skill(chCharisma[crew_id], chPsi[crew_id], ROLL_NEW);
-
-    
-    
-    
     // remaining skills needed
 
 }
@@ -505,7 +444,7 @@ void generate_skills(int crew_id) {
 int gen_enc_skill(int attr1, int attr2, int bonus_roll) {
     int skill_cd;
     int avg_attr = (attr1 + attr2) / 2;
-    if (avg_attr == 3)
+    if (avg_attr == 3) 
         skill_cd = 2;
     else if (avg_attr < 7)
         skill_cd = 1;
@@ -515,8 +454,8 @@ int gen_enc_skill(int attr1, int attr2, int bonus_roll) {
         skill_cd = 3;
     else
         skill_cd = 4;
-
-
+    
+    
     if (bonus_roll < 0)
         bonus_roll = roll_dice(1, TEN_SIDED) * 10 + roll_dice(1, TEN_SIDED);
     int bonus_cd;
@@ -530,7 +469,7 @@ int gen_enc_skill(int attr1, int attr2, int bonus_roll) {
         bonus_cd = 30;
     else
         bonus_cd = 40;
-
+    
     return bonus_cd + skill_cd;
 
 } // end gen_enc_skill
@@ -566,15 +505,15 @@ int decode_skill_value(int encoded_skill) {
     if (skill_cd > 0)
         if (skill_cd < 3)
             skill_value = skill_cd * -1;
-        else
+        else 
             skill_value = skill_cd - 2;
-
+     
     if (bonus_cd > 0)
         if (bonus_cd < 3)
             skill_value += (bonus_cd * -1);
         else
             skill_value += (bonus_cd - 2);
-
+    
     return skill_value;
 } // end decode_skill_value
 
