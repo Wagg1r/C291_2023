@@ -175,7 +175,7 @@ int main(void) {
                 int test_bonuses[CREW_SIZE] = {1, 2, 20, 80, 99};
                 int  test_attrs[CREW_SIZE] = {3, 6, 12, 16, 18};
 		srand(1);
-		int test_rand = (rand(1)%16+3);
+		int test_rand = (rand()%16+3);
 	    	for (int i = 0; i < 5; ++i) {
                     chCharisma[i] = test_attrs[i];
                     chIntel[i] = test_attrs[i];
