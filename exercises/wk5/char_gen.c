@@ -171,11 +171,16 @@ int main(void) {
             // write test setup to test changing a single character consistently 
             // you can modify functions but minimize code only evaluated during a test.
             // provide the required input and expected output
+	    //
+	    //  Explanition: first intialize the team to whatever you want, in this case i did the same as case
+            //  1. then the file will provide a number, that number will prompt a reroll of the member that
+            //  correcposnds to that number. since I have srand(1) the random nuber generator will always give the same exact reroll
+
 	    {
                 int test_bonuses[CREW_SIZE] = {1, 2, 20, 80, 99};
                 int  test_attrs[CREW_SIZE] = {3, 6, 12, 16, 18};
 		srand(1);
-		int test_rand = (rand()%16+3);
+	
 	    	for (int i = 0; i < 5; ++i) {
                     chCharisma[i] = test_attrs[i];
                     chIntel[i] = test_attrs[i];
@@ -190,22 +195,7 @@ int main(void) {
                     chDip[i] = gen_enc_skill(chCharisma[i], chPsi[i], test_bonuses[i]);
 		}
 		
-		
-                print_crew_report();
-		
-		int i = 0;
-                    chCharisma[0] = test_rand;
-                    chIntel[0] = test_rand;
-                    chStr[0] = test_rand;
-                    chPsi[0] = test_rand;
-                    chAgl[0] = test_rand;
-                    generate_race(i, (i % 4) + 1);
-                    chLead[0] = gen_enc_skill(chCharisma[i], chIntel[i], test_bonuses[i]);
-                    chNav[0] = gen_enc_skill(chIntel[i], chPsi[i], test_bonuses[i]);
-                    chEng[0] = gen_enc_skill(chIntel[i], chAgl[i], test_bonuses[i]);
-                    chTac[0] = gen_enc_skill(chStr[i], chAgl[i], test_bonuses[i]);
-                    chDip[0] = gen_enc_skill(chCharisma[i], chPsi[i], test_bonuses[i]);
-	    		
+	
 	    }
     break;
    
@@ -215,10 +205,14 @@ int main(void) {
             // write test setup to test changing entire crew consistently
             // you can modify functions but minimize code only evaluated during a test.
             // provide the required input and expected output
+	    //
+	    // Explanition: first intialize the team to whatever you want, in this case i did the same as case
+	    //  1. then the file will provide the letter C, that letter will prompt a reroll of the whole crew 
+	    // since I have srand(2) the random nuber generator will always give the same exact reroll
 {
                 int test_bonuses[CREW_SIZE] = {1, 2, 20, 80, 99};
                 int  test_attrs[CREW_SIZE] = {3, 6, 12, 16, 18};
-                int test_rand = (18);
+                srand(2);
                 //int test_rand = (srand(1)%16+3);
                 for (int i = 0; i < 5; ++i) {
                     chCharisma[i] = test_attrs[i];
@@ -234,23 +228,6 @@ int main(void) {
                     chDip[i] = gen_enc_skill(chCharisma[i], chPsi[i], test_bonuses[i]);
                 }
 
-		print_crew_report();
-
-		 for (int i = 0; i < 5; ++i) {
-		    srand(i);
-		    test_attrs[i]= ((rand()%16)+3);
-		    chCharisma[i] = test_attrs[i];
-                    chIntel[i] = test_attrs[i];
-                    chStr[i] = test_attrs[i];
-                    chPsi[i] = test_attrs[i];
-                    chAgl[i] = test_attrs[i];
-                    generate_race(i, (i % 4) + 1);
-                    chLead[i] = gen_enc_skill(chCharisma[i], chIntel[i], test_bonuses[i]);
-                    chNav[i] = gen_enc_skill(chIntel[i], chPsi[i], test_bonuses[i]);
-                    chEng[i] = gen_enc_skill(chIntel[i], chAgl[i], test_bonuses[i]);
-                    chTac[i] = gen_enc_skill(chStr[i], chAgl[i], test_bonuses[i]);
-                    chDip[i] = gen_enc_skill(chCharisma[i], chPsi[i], test_bonuses[i]);
-		}
 	     break;
 	}
         default:
