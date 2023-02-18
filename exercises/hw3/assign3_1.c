@@ -2,7 +2,7 @@
 
 int main(){
 //a
-/*
+
 unsigned int numA = 1001;
 printf("%-12.6u \n",numA);
 
@@ -71,7 +71,7 @@ printf("\n")
 char s[50];
 printf("Enter a string in the format \"characters\": ");
 scanf(" \"%49[^\"]\"", s);
-*/
+
 //part 2
 
 //a)it will print the decimal value 32100  
