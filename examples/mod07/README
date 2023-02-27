@@ -1,0 +1,34 @@
+# Module 07 Example Notes
+Some example programs demonstrating the relationship between arrays and pointers.
+
+##Arrays and Pointers
+arrays_n_ptrs.c is a program that shows various declarations and usage of arrays and
+pointers. The comments explain the code. The output for this program looks like:
+
+	Print numbers by array indexing.
+	[0 : 0x7ffd4d881514] 4
+	[1 : 0x7ffd4d881518] 5
+	[2 : 0x7ffd4d88151c] 6
+	
+	Print numbers using pointer syntax.
+	[0 : 0x7ffd4d881514] 4
+	[1 : 0x7ffd4d881518] 5
+	[2 : 0x7ffd4d88151c] 6
+	
+	Sum demo_a using array index: 15
+	Sum demo_a using pointers: 15
+	Sum int_buffer using array index: 15
+	Sum int_buffer using ptrs: 15
+	
+	Sum of products by array: 44
+	Sum of products by ptr: 44
+	Sum of products by array: 44
+	Sum of products by ptr: 44
+	Sum of products by array sum_prod_a(demo3_ptr): 44
+	Sum of products by ptr sum_prod_p2(demo2_a)): 44
+
+## Sorting Phone Numbers
+*qsort_ph_nbrs.c* and *qsort_ph_nbrs_ptr.c* demonstrate using an array to index a buffer 
+of phone numbers. qsort is implemented to sort the array. The program prints out the phone 
+numbers in ascending order using the sorted array. Both programs use the exact same program 
+logic, but the former uses array indexes to index the phone numbers and the latter uses pointers.
