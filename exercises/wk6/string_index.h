@@ -17,7 +17,22 @@
 
     Returns the total number of characters loaded and -1 if no characters loaded.
 */
-int initialize_buffer(char buffer[]);
+int initialize_buffer(char buffer[]){
+	// initialize variables
+    for (int i = 0; i < BUFFER_SIZE; i++) {
+    buffer[i] = '\0';
+}   
+	char letter = 'a';
+	int num_chars = 0;
+	// if its not the end of file or the buffer size keep reading characters and saving them all into an array 
+	while ((letter != EOF && num_chars < BUFFER_SIZE-1)){
+		letter = getchar();
+		buffer[num_chars] = letter;
+		num_chars++;
+	}
+	return num_chars;
+}	
+
 
 /********************************************************
   Functions that work with arrays
@@ -32,7 +47,58 @@ int initialize_buffer(char buffer[]);
 
     Returns the total number of unique words found in the character buffer.
 */
-int index_buffer_by_array(const char buffer[], int index[][2], int w_counts[] );
+
+int index_buffer_by_array(const char buffer[], int index[][2], int w_counts[] ){
+    int buffer_index = 0;
+    int index_count = 0;
+    int word_length = 0;
+    bool in_word = false; // tells me if i am in a word    
+    int word_start = NOT_FOUND;
+    
+    // loop through buffer and index each word
+    while (index_count < BUFFER_SIZE-1 && buffer[index_count] != '\0') {
+        if (isalpha(buffer[index_count])) {
+            if (!in_word) {
+                // start of new word
+                in_word = true;
+                word_start = index_count;
+            }
+            word_length++;
+        } else {
+            if (in_word) {
+                // end of word
+                in_word = false;
+                
+                // check if word already exists in index array
+                bool found = false;
+                for (int i = 0; i < buffer_index; i++) {
+                    if (strncmp(&buffer[word_start], &buffer[index[i][WD_BGN]], word_length) == 0) {
+                        // word already exists, update index and increment count
+                        index[i][WD_END] = index_count - 1;
+                        w_counts[i]++;
+                        found = true;
+                        break;
+                    }
+                }
+                
+                if (!found) {
+                    // word doesn't exist, add to index array
+                    index[buffer_index][WD_BGN] = word_start;
+                    index[buffer_index][WD_END] = index_count - 1;
+                    w_counts[buffer_index] = 1;
+                    buffer_index++;
+                }
+                
+                word_length = 0;
+            }
+        }
+        index_count++;
+    }
+    
+    
+    
+    return buffer_index;
+}
 
 /*
     find_word_by_array:
@@ -42,7 +108,30 @@ int index_buffer_by_array(const char buffer[], int index[][2], int w_counts[] );
 
     Returns the index number for the word if found, otherwise returns NOT_FOUND.
 */
-int find_word_by_array(int word_beg, const char buf[], int index[][2]);
+int find_word_by_array(int word_beg, const char buf[], int index[][2]){
+    int word_freq = 0;
+    for (int i = 0; i < WORD_LIMIT && buf[i] != '\0'; i++) {
+        if (isspace(buf[i])) {
+            // end of word
+            word_beg = NOT_FOUND;
+        } else {
+            if (word_beg == NOT_FOUND) {
+                // start of new word
+                word_beg = i;
+                index[word_freq][WD_BGN] = word_beg;
+            }
+            if (buf[i+1] == '\0' || isspace(buf[i+1])) {
+                // end of word
+                index[word_freq][WD_END] = i;
+                word_freq++;
+            }
+        }
+    }
+//     for (int i = 0; i < WORD_LIMIT; i++) {
+//     printf("%d %d\n", index[i][0], index[i][1]);
+// }
+    return word_freq;
+}//ends function
 
 /*
     print_report_by_array:
@@ -55,7 +144,11 @@ int find_word_by_array(int word_beg, const char buf[], int index[][2]);
     0( 0): 2 all
     1( 4): 1 the
 */
-void print_report_by_array(const char buf[], int index[][2], int counts[], int word_cnt);
+void print_report_by_array(const char buf[], int index[][2], int counts[], int word_cnt) {
+    for (int i = 0; i < word_cnt; i++) {
+        printf("%d( %d): %d %.*s\n", i, index[i][WD_BGN], counts[i], index[i][WD_END] - index[i][WD_BGN] + 1, &buf[index[i][WD_BGN]]);
+    }
+}
 
 /*******************************************************
   Functions that work with pointers
@@ -70,7 +163,7 @@ void print_report_by_array(const char buf[], int index[][2], int counts[], int w
 
     Returns the total number of unique words found in the character buffer.
 */
-int index_buffer_by_ptr(const char * buf, const char * index[][2], int word_counts[] );
+//-----------------------int index_buffer_by_ptr(const char * buf, const char * index[][2], int word_counts[] );
 
 /*
     find_word_by_ptr:
