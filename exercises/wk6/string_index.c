@@ -1,5 +1,5 @@
-// Program description
-// Author:
+// Program description: using arrays and pointers tell how many words are repeated
+// Author: Thomas Waggoner
 
 /*****************************************************************************
  * 
