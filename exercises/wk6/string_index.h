@@ -23,12 +23,13 @@ int initialize_buffer(char buffer[]){
     buffer[i] = '\0';
 }   
 	char letter = 'a';
-	int num_chars = 0;
+	int num_chars = -1;
 	// if its not the end of file or the buffer size keep reading characters and saving them all into an array 
 	while ((letter != EOF && num_chars < BUFFER_SIZE-1)){
-		letter = getchar();
-		buffer[num_chars] = letter;
 		num_chars++;
+        letter = getchar();
+		buffer[num_chars] = letter;
+		
 	}
 	return num_chars;
 }	
@@ -68,19 +69,16 @@ int index_buffer_by_array(const char buffer[], int index[][2], int w_counts[] ){
             if (in_word) {
                 // end of word
                 in_word = false;
-                
                 // check if word already exists in index array
                 bool found = false;
                 for (int i = 0; i < buffer_index; i++) {
                     if (strncmp(&buffer[word_start], &buffer[index[i][WD_BGN]], word_length) == 0) {
                         // word already exists, update index and increment count
-                        index[i][WD_END] = index_count - 1;
                         w_counts[i]++;
                         found = true;
                         break;
                     }
                 }
-                
                 if (!found) {
                     // word doesn't exist, add to index array
                     index[buffer_index][WD_BGN] = word_start;
@@ -88,16 +86,14 @@ int index_buffer_by_array(const char buffer[], int index[][2], int w_counts[] ){
                     w_counts[buffer_index] = 1;
                     buffer_index++;
                 }
-                
                 word_length = 0;
             }
         }
         index_count++;
     }
-    
-    
-    
     return buffer_index;
+    
+
 }
 
 /*
@@ -118,11 +114,11 @@ int find_word_by_array(int word_beg, const char buf[], int index[][2]){
             if (word_beg == NOT_FOUND) {
                 // start of new word
                 word_beg = i;
-                index[word_freq][WD_BGN] = word_beg;
+                index[i][WD_BGN] = word_beg;
             }
             if (buf[i+1] == '\0' || isspace(buf[i+1])) {
                 // end of word
-                index[word_freq][WD_END] = i;
+                index[i][WD_END] = i;
                 word_freq++;
             }
         }
