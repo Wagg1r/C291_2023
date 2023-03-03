@@ -10,6 +10,7 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <string.h>
+#include <strings.h>
 #include "string_index.h"
 
 
