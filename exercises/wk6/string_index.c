@@ -30,10 +30,10 @@ int word_index_array[WORD_LIMIT][2]; // to store the beginning and end of each w
     /* ***** DO NOT CHANGE ANY CODE BEYOND THIS POINT IN main() ****** */
     initialize_buffer(buffer);
 
-    //words_found = index_buffer_by_ptr(buffer, word_index, word_counts);
+    words_found = index_buffer_by_ptr(buffer, word_index, word_counts);
 
-    //print_report_by_ptr(buffer, word_index, word_counts, words_found);
-
+    print_report_by_ptr(buffer, word_index, word_counts, words_found);
+    printf("\n");
     words_found = index_buffer_by_array(buffer, word_index_array, word_counts);
 
    print_report_by_array(buffer, word_index_array, word_counts, words_found);
