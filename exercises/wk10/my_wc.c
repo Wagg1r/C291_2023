@@ -1,0 +1,232 @@
+// assignment 5 word count
+// author: Thomas Waggoner
+
+/*
+
+Pseudocode:
+
+options
+    get one letter for each command
+    make case if there is none
+
+While reading sentence
+    If buffer == full
+        make more room
+    Add character to buffer
+
+    If character = /n:
+        line_count++
+
+    If character is whitespace or EOF
+        Mark the end of the word
+
+        If word != empty:
+            found flag = 0
+
+            go through word_list:
+                If the word is in word_list:
+                    count++ for that word
+                    found flag = 1
+                    Break;
+
+            If word not found:
+                If word_list is full:
+                    make more room for memory
+
+                else
+                    Add the word to word_list with count 1
+                Increment word_count
+
+        Update the position for new word
+    Increment chararacter counter
+
+Free memory
+Exit
+*/
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+#define BUFFER_SIZE 40
+#define WORD_SIZE 10
+
+// struct for word/count
+typedef struct {
+    char *word;
+    int count;
+} User_Word;
+
+// print options
+void print_options() {
+    fprintf(stderr, "Your options are -l, -c, -w, -f, -v, ,-h, -d\n");
+}
+
+int main(int argc, char *argv[]) {
+    int line_count = 0, char_count = 0, word_count = 0, total_word_count = 0;
+    int option_l = 0, option_c = 0, option_w = 0, option_f = 0, option_v = 0, option_h = 0, option_d = 0;
+    char *buffer = NULL;
+    size_t buffer_size = 0;
+    User_Word *word_list = NULL;
+    size_t word_list_size = 0;
+
+    // user options
+    for (int i = 1; i < argc; i++) {
+    switch (argv[i][1]) {
+        case 'l':
+            option_l = 1;
+            break;
+        case 'c':
+            option_c = 1;
+            break;
+        case 'w':
+            option_w = 1;
+            break;
+        case 'f':
+            option_f = 1;
+            break;
+        case 'v':
+            option_v = 1;
+            break;
+        case 'h':
+            option_h = 1;
+            break;
+        case 'd':
+            option_d = 1;
+            break;
+        default:
+            printf("Invalid option.\n");
+            print_options();
+            return 1;
+    }
+}
+    
+    // if v then print out all the possible options
+    if (option_v) {
+        option_l = 1;
+        option_c = 1;
+        option_w = 1;
+        option_f = 1;
+    }
+    //if no options print wordcount
+    if (!option_l && !option_c && !option_f && !option_v) {
+        option_w = 1;
+    }
+    // Print debug info
+    if (option_h) {
+        print_options();
+        return 0;
+    }
+    // Read input
+    char c;
+    size_t buffer_position = 0, line_start = 0;
+    int found = 0;
+
+    buffer = malloc(BUFFER_SIZE);
+    buffer_size = BUFFER_SIZE;
+    word_list = malloc(WORD_SIZE * sizeof(User_Word));
+    word_list_size = WORD_SIZE;
+    
+    // Read input character by character
+    while ((c = getchar()) != EOF) {
+        //if buffer needs more space
+        if (buffer_position == buffer_size - 1) {
+            buffer_size += BUFFER_SIZE;
+            buffer = realloc(buffer, buffer_size);
+        }
+        buffer[buffer_position++] = c;
+
+        if (c == '\n') {
+            line_count++;
+        }
+        // see if its whitespace or EOF
+        if (isspace(c) || c == EOF) {
+            buffer[buffer_position - 1] = '\0';
+            char *word = &buffer[line_start];
+            size_t word_length = strlen(word);
+            // Check its a word
+            if (word_length > 0) {
+                
+                // Check if word is counted already
+                for (size_t i = 0; i < word_count; i++) {
+                    found = 0;
+                    if (strcmp(word_list[i].word, word) == 0) {
+                        word_list[i].count++;
+                        total_word_count++;
+                        found = 1;
+                        break;
+                    }
+                }
+                // Add word if it doesn't exist
+                if (!found) {
+                    if (word_count == word_list_size) {
+                        word_list_size += WORD_SIZE;
+                        word_list = realloc(word_list, word_list_size * sizeof(User_Word));
+                    }
+                    word_list[word_count].word = strdup(word);
+                    word_list[word_count].count = 1;
+                    total_word_count++;
+                    word_count++;
+                } 
+            }
+            // Reset line 
+            line_start = buffer_position;
+        }
+        char_count++;
+    }
+
+    // Process the last word in the input if it doesn't end with a whitespace character
+    if (char_count > 0 && !isspace(buffer[char_count - 1])) {
+        buffer[char_count] = '\0';
+        char *word = &buffer[line_start];
+        size_t word_length = strlen(word);
+        if (word_length > 0) {
+            int found = 0;
+            for (size_t i = 0; i < word_count; i++) {
+                if (strcmp(word_list[i].word, word) == 0) {
+                    word_list[i].count++;
+                    total_word_count++;
+                    found = 1;
+                    break;
+                }
+            }
+            if (!found) {
+                if (word_count == word_list_size) {
+                    word_list_size += WORD_SIZE;
+                    word_list = realloc(word_list, word_list_size * sizeof(User_Word));
+                }
+
+                word_list[word_count].word = strdup(word);
+                word_list[word_count].count = 1;
+                word_count++;
+                total_word_count++;
+            }
+        }
+    }
+
+//prints
+    if (option_w) {
+        printf("word_count: %d\n", total_word_count);
+    }
+    if (option_l) {
+        printf("line_count: %d\n", line_count);
+    }
+    if (option_c) {
+        printf("char_count: %d\n", char_count);
+    }
+    if (option_f) {
+        printf("word_frequency:\n");
+        for (size_t i = 0; i < word_count; i++) {
+            printf("%s: %d\n", word_list[i].word, word_list[i].count);
+        }
+    }
+    // Free memory
+    for (size_t i = 0; i < word_count; i++) {
+        free(word_list[i].word);
+    }
+    free(word_list);
+    free(buffer);
+    return 0;
+}
